@@ -14,101 +14,195 @@
 
 /* Custom button styles */
 .btn-primary {
-    @apply bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors;
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
 }
 
 .btn-success {
-    @apply bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors;
+    background-color: #10b981;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #059669;
 }
 
 .btn-danger {
-    @apply bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors;
+    background-color: #ef4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626;
 }
 
 .btn-warning {
-    @apply bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors;
+    background-color: #f59e0b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #d97706;
 }
 
 /* Card styles */
 .card {
-    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
 }
 
 .card-header {
-    @apply border-b border-gray-200 pb-4 mb-4;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .card-title {
-    @apply text-xl font-semibold text-gray-800;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 /* Form styles */
 .form-group {
-    @apply mb-4;
+    margin-bottom: 1rem;
 }
 
 .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-2;
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
 }
 
 .form-input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .form-select {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* Modal styles */
 .modal {
-    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
 }
 
 .modal-content {
-    @apply bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    max-width: 56rem;
+    width: 100%;
+    margin: 0 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-header {
-    @apply px-6 py-4 border-b border-gray-200 flex justify-between items-center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modal-body {
-    @apply px-6 py-4;
+    padding: 1.5rem;
 }
 
 .modal-footer {
-    @apply px-6 py-4 border-t border-gray-200 flex justify-end space-x-3;
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
 }
 
 /* Toast styles */
 .toast {
-    @apply fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white font-medium;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 50;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-weight: 500;
 }
 
 .toast-success {
-    @apply bg-green-500;
+    background-color: #10b981;
 }
 
 .toast-error {
-    @apply bg-red-500;
+    background-color: #ef4444;
 }
 
 .toast-warning {
-    @apply bg-yellow-500;
+    background-color: #f59e0b;
 }
 
 .toast-info {
-    @apply bg-blue-500;
+    background-color: #3b82f6;
 }
 
 /* Responsive utilities */
 @media (max-width: 768px) {
     .modal-content {
-        @apply mx-2 max-w-full;
+        margin: 0 0.5rem;
+        max-width: 100%;
     }
     
     .card {
-        @apply p-4;
+        padding: 1rem;
     }
     
     /* Mobile-specific fixes */
