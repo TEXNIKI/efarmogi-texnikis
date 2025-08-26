@@ -12,7 +12,8 @@ class TechnicalServiceApp {
 
     init() {
         this.setupEventListeners();
-        this.loadExistingData();
+        // Δεν φορτώνουμε δεδομένα αμέσως - μόνο όταν επιλεγεί ρόλος
+        // this.loadExistingData();
     }
 
     setupEventListeners() {
@@ -53,6 +54,12 @@ class TechnicalServiceApp {
         this.hideRoleSelection();
         this.showMainApp();
         this.updateRoleDisplay();
+        
+        // Κρύβουμε τα loading states αρχικά
+        this.hideLoading();
+        document.getElementById('emptyState').classList.add('hidden');
+        
+        // Φορτώνουμε τα δεδομένα μόνο αν υπάρχουν
         this.loadProjects();
     }
 
@@ -348,9 +355,7 @@ class TechnicalServiceApp {
 
     async loadProjects() {
         try {
-            this.showLoading();
-            
-            // Φόρτωση από localStorage (fallback)
+            // Φόρτωση από localStorage
             const savedProjects = localStorage.getItem('technicalService_projects');
             const savedSubprojects = localStorage.getItem('technicalService_subprojects');
             
@@ -365,11 +370,11 @@ class TechnicalServiceApp {
             // Φόρτωση PDF αρχείων από localStorage αν υπάρχουν
             this.loadPdfFilesFromStorage();
             
+            // Εμφάνιση αποτελεσμάτων
             this.displayProjects();
-            this.hideLoading();
+            
         } catch (error) {
             console.error('Σφάλμα φόρτωσης έργων:', error);
-            this.hideLoading();
             this.showEmptyState();
         }
     }
@@ -403,10 +408,18 @@ class TechnicalServiceApp {
     displayProjects() {
         const container = document.getElementById('projectsContainer');
         
+        // Κρύβουμε όλα τα states αρχικά
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('emptyState').classList.add('hidden');
+        container.classList.add('hidden');
+        
         if (this.subprojects.length === 0) {
             this.showEmptyState();
             return;
         }
+        
+        // Εμφανίζουμε τα projects
+        container.classList.remove('hidden');
         
         // Ομαδοποίηση υποέργων ανά έργο
         const projectsMap = new Map();
