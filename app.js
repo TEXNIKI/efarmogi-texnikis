@@ -1114,21 +1114,46 @@ class TechnicalServiceApp {
 
 // Αρχικοποίηση εφαρμογής όταν φορτώσει η σελίδα
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 DOM Content Loaded - Αρχικοποίηση εφαρμογής...');
     try {
         window.app = new TechnicalServiceApp();
         console.log('✅ Εφαρμογή αρχικοποιήθηκε επιτυχώς!');
+        console.log('🎯 Διαθέσιμα global functions:', Object.keys(window).filter(key => key.includes('selectRole')));
     } catch (error) {
         console.error('❌ Σφάλμα αρχικοποίησης εφαρμογής:', error);
     }
 });
 
+// Εναλλακτική αρχικοποίηση αν το DOMContentLoaded δεν λειτουργήσει
+window.addEventListener('load', () => {
+    console.log('🌐 Window Loaded - Εναλλακτική αρχικοποίηση...');
+    if (!window.app) {
+        try {
+            window.app = new TechnicalServiceApp();
+            console.log('✅ Εφαρμογή αρχικοποιήθηκε επιτυχώς (εναλλακτικά)!');
+        } catch (error) {
+            console.error('❌ Σφάλμα εναλλακτικής αρχικοποίησης:', error);
+        }
+    }
+});
+
 // Global functions για χρήση από HTML
-window.selectRole = (role) => {
+window.selectRole = function(role) {
+    console.log('🎯 Επιλέχθηκε ρόλος:', role);
     try {
         if (window.app) {
+            console.log('✅ Εφαρμογή βρέθηκε, καλώ selectRole...');
             window.app.selectRole(role);
         } else {
             console.error('❌ Η εφαρμογή δεν έχει αρχικοποιηθεί ακόμα!');
+            // Εναλλακτική λύση
+            setTimeout(() => {
+                if (window.app) {
+                    window.app.selectRole(role);
+                } else {
+                    console.error('❌ Ακόμα δεν έχει αρχικοποιηθεί η εφαρμογή!');
+                }
+            }, 1000);
         }
     } catch (error) {
         console.error('❌ Σφάλμα επιλογής ρόλου:', error);
