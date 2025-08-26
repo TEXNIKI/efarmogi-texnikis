@@ -1114,10 +1114,23 @@ class TechnicalServiceApp {
 
 // Αρχικοποίηση εφαρμογής όταν φορτώσει η σελίδα
 document.addEventListener('DOMContentLoaded', () => {
-    window.app = new TechnicalServiceApp();
+    try {
+        window.app = new TechnicalServiceApp();
+        console.log('✅ Εφαρμογή αρχικοποιήθηκε επιτυχώς!');
+    } catch (error) {
+        console.error('❌ Σφάλμα αρχικοποίησης εφαρμογής:', error);
+    }
 });
 
 // Global functions για χρήση από HTML
 window.selectRole = (role) => {
-    window.app.selectRole(role);
+    try {
+        if (window.app) {
+            window.app.selectRole(role);
+        } else {
+            console.error('❌ Η εφαρμογή δεν έχει αρχικοποιηθεί ακόμα!');
+        }
+    } catch (error) {
+        console.error('❌ Σφάλμα επιλογής ρόλου:', error);
+    }
 };
