@@ -1,0 +1,31 @@
+{
+  "name": "efarmogi-texnikis",
+  "version": "1.0.0",
+  "description": "Εφαρμογή Τεχνικής Υπηρεσίας - Δήμος Αρχανών Αστερουσίων",
+  "main": "index.html",
+  "scripts": {
+    "start": "start index.html",
+    "dev": "start index.html",
+    "build": "echo 'Web application - no build needed'",
+    "deploy": "echo 'Deploy to GitHub Pages'"
+  },
+  "keywords": [
+    "web-application",
+    "technical-service",
+    "project-management",
+    "greece",
+    "municipality",
+    "html5",
+    "javascript",
+    "tailwind-css"
+  ],
+  "author": "Δήμος Αρχανών Αστερουσίων",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/efarmogi-texnikis.git"
+  },
+  "homepage": "https://your-username.github.io/efarmogi-texnikis/",
+  "devDependencies": {},
+  "dependencies": {}
+}

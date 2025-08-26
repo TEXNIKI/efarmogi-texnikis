@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️ Εφαρμογή Τεχνικής Υπηρεσίας - Δήμος Αρχανών Αστερουσίων</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-field {
+            transition: all 0.3s ease;
+        }
+        .form-field:focus-within {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Role Selection Page -->
+    <div id="roleSelectionPage" class="min-h-screen flex items-center justify-center gradient-bg">
+        <div class="bg-white rounded-3xl p-12 max-w-2xl w-full mx-4 shadow-2xl fade-in">
+            <div class="text-center mb-12">
+                <i class="fas fa-building text-8xl text-blue-500 mb-6"></i>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Εφαρμογή Τεχνικής Υπηρεσίας</h1>
+                <p class="text-xl text-gray-600">Δήμος Αρχανών Αστερουσίων</p>
+                <p class="text-lg text-gray-500 mt-2">Διαχείριση Έργων & Υποέργων</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Επιλέξτε τον ρόλο σας</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Χρήστης Card -->
+                    <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-8 text-center hover:border-blue-400 hover:bg-blue-100 transition-all cursor-pointer card-hover" 
+                         onclick="selectRole('user')">
+                        <i class="fas fa-user text-6xl text-blue-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-blue-800 mb-3">ΧΡΗΣΤΗΣ</h3>
+                        <p class="text-blue-600 mb-4">Προβολή αρχείων και δεδομένων</p>
+                        <ul class="text-sm text-blue-700 text-left space-y-2">
+                            <li><i class="fas fa-eye mr-2"></i>Προβολή έργων & υποέργων</li>
+                            <li><i class="fas fa-download mr-2"></i>Λήψη PDF αρχείων</li>
+                            <li><i class="fas fa-search mr-2"></i>Αναζήτηση δεδομένων</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Διαχειριστής Card -->
+                    <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-8 text-center hover:border-green-400 hover:bg-green-100 transition-all cursor-pointer card-hover" 
+                         onclick="selectRole('admin')">
+                        <i class="fas fa-user-tie text-6xl text-green-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-green-800 mb-3">ΔΙΑΧΕΙΡΙΣΤΗΣ</h3>
+                        <p class="text-green-600 mb-4">Πλήρης διαχείριση δεδομένων</p>
+                        <ul class="text-sm text-green-700 text-left space-y-2">
+                            <li><i class="fas fa-plus mr-2"></i>Προσθήκη νέων υποέργων</li>
+                            <li><i class="fas fa-edit mr-2"></i>Επεξεργασία δεδομένων</li>
+                            <li><i class="fas fa-upload mr-2"></i>Διαχείριση PDF αρχείων</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Page -->
+    <div id="mainAppPage" class="hidden min-h-screen">
+        <!-- Header -->
+        <header class="gradient-bg text-white shadow-lg">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-building text-3xl"></i>
+                        <div>
+                            <h1 class="text-2xl font-bold">Εφαρμογή Τεχνικής Υπηρεσίας</h1>
+                            <p class="text-blue-100">Δήμος Αρχανών Αστερουσίων</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-white bg-opacity-20 px-4 py-2 rounded-lg">
+                            <span class="text-sm">Ρόλος:</span>
+                            <span id="currentRoleDisplay" class="ml-2 font-semibold"></span>
+                        </div>
+                        <button id="changeRoleBtn" class="glass-effect px-4 py-2 rounded-lg hover:bg-white hover:text-blue-600 transition-all">
+                            <i class="fas fa-exchange-alt mr-2"></i>
+                            Αλλαγή Ρόλου
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-6 py-8">
+            <!-- Actions Bar -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <button id="addSubprojectBtn" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors font-semibold">
+                            <i class="fas fa-plus mr-2"></i>
+                            ΕΙΣΑΓΩΓΗ ΝΕΟΥ ΥΠΟΕΡΓΟΥ
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="🔍 Αναζήτηση έργων και υποέργων..." 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-80">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select id="filterSelect" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Όλα τα έργα</option>
+                            <option value="pending">Υπό βραχυπρόθεσμη ωρίμανση</option>
+                            <option value="contract">Σε διαδικασία σύναψης σύμβασης</option>
+                            <option value="executing">Εκτελούμενο - Συμβασιοποιημένο</option>
+                            <option value="completed">Ολοκληρωμένο</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Container -->
+            <div id="projectsContainer" class="space-y-8">
+                <!-- Projects will be loaded here -->
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-12">
+                <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-4"></i>
+                <p class="text-gray-600">Φόρτωση έργων και υποέργων...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-12">
+                <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Δεν βρέθηκαν έργα</h3>
+                <p class="text-gray-500">Δημιουργήστε το πρώτο σας υποέργο για να ξεκινήσετε</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Subproject Modal -->
+    <div id="subprojectModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">ΕΙΣΑΓΩΓΗ ΝΕΟΥ ΥΠΟΕΡΓΟΥ</h2>
+                <button id="closeSubprojectModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-3xl"></i>
+                </button>
+            </div>
+            
+            <form id="subprojectForm" class="space-y-6">
+                <!-- Basic Information -->
+                <div class="bg-blue-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Βασικές Πληροφορίες</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΤΙΤΛΟΣ ΕΡΓΟΥ *</label>
+                            <input type="text" id="projectTitle" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΤΙΤΛΟΣ ΥΠΟΕΡΓΟΥ *</label>
+                            <input type="text" id="subprojectTitle" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΚΩΔΙΚΟΣ ΚΑ *</label>
+                            <input type="text" id="kaCode" required placeholder="xx-xxxx.xxx" 
+                                   pattern="[0-9]{2}-[0-9]{4}\.[0-9]{3}"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+                            <p class="text-sm text-gray-500 mt-1">Μορφή: xx-xxxx.xxx (όπου x = αριθμοί)</p>
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΕΓΚΕΚΡΙΜΕΝΟ ΠΟΣΟ (€) *</label>
+                            <input type="text" id="approvedAmount" required placeholder="25.254,28" 
+                                   pattern="[0-9]{1,3}(\.[0-9]{3})*(,[0-9]{2})?"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg">
+                            <p class="text-sm text-gray-500 mt-1">Μορφή: 25.254,28</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funding Source -->
+                <div class="bg-green-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-green-800 mb-4">Πηγή Χρηματοδότησης</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΒΑΣΙΚΗ ΠΗΓΗ ΧΡΗΜΑΤΟΔΟΤΗΣΗΣ *</label>
+                            <select id="fundingSource" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg">
+                                <option value="">Επιλέξτε πηγή χρηματοδότησης...</option>
+                                <option value="antoni_tritsi">ΠΡΟΓΡΑΜΜΑ ΑΝΤΩΝΗΣ ΤΡΙΤΣΗΣ</option>
+                                <option value="filodimos_ii">ΠΡΟΓΡΑΜΜΑ ΦΙΛΟΔΗΜΟΣ ΙΙ</option>
+                                <option value="pde_ypes_sae055">ΠΔΕ ΥΠΕΣ ΣΑΕ055</option>
+                                <option value="espa_2014_2020">ΕΣΠΑ 2014_2020</option>
+                                <option value="espa_2021_2027">ΕΣΠΑ 2021_2027</option>
+                                <option value="ethniko_pde">ΕΘΝΙΚΟ ΠΔΕ</option>
+                                <option value="epa_2021_2025">ΕΠΑ_2021_2025</option>
+                                <option value="tameio_anakampsis">ΤΑΜΕΙΟ ΑΝΑΚΑΜΨΗΣ και ΑΝΘΕΚΤΙΚΟΤΗΤΑΣ</option>
+                                <option value="loipa_programmata">ΛΟΙΠΑ ΠΡΟΓΡΑΜΜΑΤΑ ή ΠΟΡΟΙ</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΕΞΕΙΔΙΚΕΥΣΗ ΠΗΓΗΣ ΧΡΗΜΑΤΟΔΟΤΗΣΗΣ *</label>
+                            <select id="fundingSpecialization" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg">
+                                <option value="">Πρώτα επιλέξτε πηγή χρηματοδότησης...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Contract -->
+                <div class="bg-yellow-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-yellow-800 mb-4">Κατάσταση & Σύμβαση</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΚΑΤΑΣΤΑΣΗ *</label>
+                            <select id="status" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-lg">
+                                <option value="">Επιλέξτε κατάσταση...</option>
+                                <option value="pending">ΥΠΟ ΒΡΑΧΥΠΡΟΘΕΣΜΗ ΩΡΙΜΑΝΣΗ</option>
+                                <option value="contract">ΣΕ ΔΙΑΔΙΚΑΣΙΑ ΣΥΝΑΨΗΣ ΣΥΜΒΑΣΗΣ</option>
+                                <option value="executing">ΕΚΤΕΛΟΥΜΕΝΟ - ΣΥΜΒΑΣΙΟΠΟΙΗΜΕΝΟ</option>
+                                <option value="completed">ΟΛΟΚΛΗΡΩΜΕΝΟ</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΕΙΔΟΣ *</label>
+                            <select id="type" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-lg">
+                                <option value="">Επιλέξτε είδος...</option>
+                                <option value="procurement">ΠΡΟΜΗΘΕΙΑ</option>
+                                <option value="work">ΕΡΓΟ</option>
+                                <option value="study">ΜΕΛΕΤΗ</option>
+                                <option value="service">ΥΠΗΡΕΣΙΑ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Contract Fields (shown conditionally) -->
+                    <div id="contractFields" class="hidden mt-6 pt-6 border-t border-yellow-200">
+                        <h4 class="text-lg font-semibold text-yellow-700 mb-4">Στοιχεία Σύμβασης</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ΠΟΣΟ ΣΥΜΒΑΣΗΣ (€)</label>
+                                <input type="text" id="contractAmount" placeholder="25.254,28" 
+                                       pattern="[0-9]{1,3}(\.[0-9]{3})*(,[0-9]{2})?"
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-lg">
+                                <p class="text-sm text-gray-500 mt-1">Μορφή: 25.254,28</p>
+                            </div>
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ΗΜΕΡΟΜΗΝΙΑ ΥΠΟΓΡΑΦΗΣ ΣΥΜΒΑΣΗΣ</label>
+                                <input type="date" id="contractDate" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-lg">
+                            </div>
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ΑΠΕ + ΣΥΜΠΛΗΡΩΜΑΤΙΚΕΣ ΣΥΜΒΑΣΕΙΣ (€)</label>
+                                <input type="text" id="additionalContracts" placeholder="25.254,28" 
+                                       pattern="[0-9]{1,3}(\.[0-9]{3})*(,[0-9]{2})?"
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-lg">
+                                <p class="text-sm text-gray-500 mt-1">Μορφή: 25.254,28</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="bg-purple-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-purple-800 mb-4">Πρόσθετες Πληροφορίες</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΕΠΙΒΛΕΠΩΝ</label>
+                            <input type="text" id="supervisor" 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg">
+                        </div>
+                        <div class="form-field">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ΣΧΟΛΙΑ</label>
+                            <textarea id="comments" rows="3" 
+                                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload -->
+                <div class="bg-orange-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-orange-800 mb-4">Φόρτωση Αρχείων</h3>
+                    <div class="border-2 border-dashed border-orange-300 rounded-lg p-8 text-center hover:border-orange-400 transition-colors">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-orange-500 mb-4"></i>
+                        <p class="text-lg text-orange-700 mb-2">Κάντε κλικ για επιλογή PDF αρχείων</p>
+                        <p class="text-sm text-orange-600">ή σύρτε τα αρχεία εδώ</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf" class="hidden">
+                        <button type="button" id="selectFilesBtn" 
+                                class="mt-4 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors font-semibold">
+                            <i class="fas fa-folder-open mr-2"></i>
+                            ΕΠΙΛΟΓΗ ΑΡΧΕΙΩΝ
+                        </button>
+                    </div>
+                    <div id="selectedFiles" class="mt-4 space-y-2">
+                        <!-- Selected files will appear here -->
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex justify-end space-x-4 pt-6">
+                    <button type="button" id="cancelSubproject" 
+                            class="px-8 py-3 border-2 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-semibold text-lg">
+                        ΑΚΥΡΩΣΗ
+                    </button>
+                    <button type="submit" 
+                            class="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold text-lg">
+                        <i class="fas fa-save mr-2"></i>
+                        ΑΠΟΘΗΚΕΥΣΗ ΥΠΟΕΡΓΟΥ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Files Folder Modal -->
+    <div id="filesFolderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">ΦΑΚΕΛΟΣ ΑΡΧΕΙΩΝ</h2>
+                <button id="closeFilesModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="filesList" class="space-y-2 max-h-[60vh] overflow-y-auto">
+                <!-- Files will be listed here -->
+            </div>
+            
+            <div class="flex justify-between items-center mt-6 pt-4 border-t">
+                <div class="text-sm text-gray-600">
+                    <span id="filesCount">0</span> αρχεία
+                </div>
+                <div class="flex space-x-2">
+                    <button id="downloadAllFiles" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <i class="fas fa-download mr-2"></i>
+                        Λήψη Όλων
+                    </button>
+                    <button id="closeFilesBtn" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                        Κλείσιμο
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Main JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
