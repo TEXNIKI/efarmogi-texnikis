@@ -50,13 +50,14 @@ class TechnicalServiceApp {
     }
 
     selectRole(role) {
+        console.log('🎯 Εκτέλεση selectRole για ρόλο:', role);
         this.currentRole = role;
         this.hideRoleSelection();
         this.showMainApp();
         this.updateRoleDisplay();
         
         // Κρύβουμε τα loading states αρχικά
-        this.hideLoading();
+        document.getElementById('loadingState').classList.add('hidden');
         document.getElementById('emptyState').classList.add('hidden');
         
         // Φορτώνουμε τα δεδομένα μόνο αν υπάρχουν
